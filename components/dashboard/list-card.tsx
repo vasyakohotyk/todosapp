@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Edit2, Trash2, Users } from "lucide-react"
+import { Edit2, Trash2, Users, Loader2 } from "lucide-react"
 import type { TodoList, UserRole } from "@/lib/types"
 
 interface ListCardProps {
@@ -10,6 +10,7 @@ interface ListCardProps {
   userRole: UserRole
   collaboratorCount: number
   taskStats: { completed: number; total: number }
+  isLoading?: boolean
   onEdit: (list: TodoList) => void
   onDelete: (listId: string) => void
   onManageCollaborators: (list: TodoList) => void
@@ -21,6 +22,7 @@ export function ListCard({
   userRole,
   collaboratorCount,
   taskStats,
+  isLoading = false,
   onEdit,
   onDelete,
   onManageCollaborators,
@@ -91,6 +93,7 @@ export function ListCard({
                   e.stopPropagation()
                   onEdit(list)
                 }}
+                disabled={isLoading}
               >
                 <Edit2 className="h-4 w-4 text-gray-600" />
               </Button>
@@ -104,6 +107,7 @@ export function ListCard({
                   e.stopPropagation()
                   onDelete(list.id)
                 }}
+                disabled={isLoading}
               >
                 <Trash2 className="h-4 w-4 text-red-500" />
               </Button>
@@ -116,15 +120,24 @@ export function ListCard({
                 e.stopPropagation()
                 onManageCollaborators(list)
               }}
+              disabled={isLoading}
             >
               <Users className="h-4 w-4 text-gray-600" />
             </Button>
           </div>
           <Button
-            className="bg-gray-900 hover:bg-gray-800 text-white px-6 py-2 rounded-lg text-sm font-medium"
+            className="bg-gray-900 hover:bg-gray-800 text-white px-6 py-2 rounded-lg text-sm font-medium disabled:opacity-50"
             onClick={() => onOpen(list.id)}
+            disabled={isLoading}
           >
-            Open
+            {isLoading ? (
+              <>
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                Loading...
+              </>
+            ) : (
+              "Open"
+            )}
           </Button>
         </div>
       </CardContent>

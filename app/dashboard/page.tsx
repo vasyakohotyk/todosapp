@@ -37,6 +37,7 @@ export default function DashboardPage() {
   const [lists, setLists] = useState<TodoList[]>([])
   const [error, setError] = useState("")
   const [listTasks, setListTasks] = useState<Record<string, { completed: number; total: number }>>({})
+  const [loadingListId, setLoadingListId] = useState<string | null>(null)
 
   const [editingList, setEditingList] = useState<TodoList | null>(null)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
@@ -227,6 +228,14 @@ export default function DashboardPage() {
     setIsDeleteCollaboratorDialogOpen(true)
   }
 
+  const handleOpenList = (listId: string) => {
+    setLoadingListId(listId)
+
+    setTimeout(() => {
+      router.push(`/lists/${listId}`)
+    }, 1000)
+  }
+
   if (loading) {
     return <LoadingSpinner />
   }
@@ -262,10 +271,11 @@ export default function DashboardPage() {
                   userRole={userRole}
                   collaboratorCount={collaboratorCount}
                   taskStats={listTasks[list.id] || { completed: 0, total: 0 }}
+                  isLoading={loadingListId === list.id}
                   onEdit={openEditDialog}
                   onDelete={confirmDeleteList}
                   onManageCollaborators={openCollaboratorDialog}
-                  onOpen={(listId) => router.push(`/lists/${listId}`)}
+                  onOpen={handleOpenList}
                 />
               )
             })}
