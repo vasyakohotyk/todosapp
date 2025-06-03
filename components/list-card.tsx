@@ -100,7 +100,8 @@ export function ListCard({
               </Button>
             )}
             {canDelete && (
-              <Button
+             <>
+             <Button
                 variant="ghost"
                 size="sm"
                 className="h-9 w-9 p-0 hover:bg-gray-100"
@@ -123,6 +124,7 @@ export function ListCard({
             >
               <Users className="h-4 w-4 text-gray-600" />
             </Button>
+              </>
             )}
           </div>
           <Button
