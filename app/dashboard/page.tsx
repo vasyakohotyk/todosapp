@@ -2,7 +2,6 @@
 
 import { useAuth } from "@/contexts/auth-context"
 import { useRouter } from "next/navigation"
-import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from "react"
 import {
   collection,
@@ -35,8 +34,6 @@ import { LoadingSpinner } from "@/components/shared/loading-spinner"
 export default function DashboardPage() {
   const { user, signOut, loading } = useAuth()
   const router = useRouter()
-  const navigate = useNavigate()
-
   const [lists, setLists] = useState<TodoList[]>([])
   const [error, setError] = useState("")
   const [listTasks, setListTasks] = useState<Record<string, { completed: number; total: number }>>({})
@@ -268,7 +265,7 @@ export default function DashboardPage() {
                   onEdit={openEditDialog}
                   onDelete={confirmDeleteList}
                   onManageCollaborators={openCollaboratorDialog}
-                  onOpen={(listId) => navigate(`/lists/${listId}`)}
+                  onOpen={(listId) => router.push(`/lists/${listId}`)}
                 />
               )
             })}
