@@ -263,6 +263,7 @@ export default function DashboardPage() {
             {lists.map((list) => {
               const userRole = getUserRole(list)
               const collaboratorCount = (list.collaborators?.length || 0) + 1
+              const canManageCollaborators = userRole === "owner" || userRole === "admin"
 
               return (
                 <ListCard
@@ -274,7 +275,7 @@ export default function DashboardPage() {
                   isLoading={loadingListId === list.id}
                   onEdit={openEditDialog}
                   onDelete={confirmDeleteList}
-                  onManageCollaborators={openCollaboratorDialog}
+                  onManageCollaborators={canManageCollaborators ? openCollaboratorDialog : () => {}}
                   onOpen={handleOpenList}
                 />
               )
@@ -289,15 +290,17 @@ export default function DashboardPage() {
           onEditList={handleEditList}
         />
 
-        <CollaboratorDialog
-          list={selectedList}
-          currentUser={user}
-          isOpen={isCollaboratorDialogOpen}
-          onClose={() => setIsCollaboratorDialogOpen(false)}
-          onAddCollaborator={handleAddCollaborator}
-          onUpdateCollaboratorRole={handleUpdateCollaboratorRole}
-          onRemoveCollaborator={confirmRemoveCollaborator}
-        />
+        {selectedList && (getUserRole(selectedList) === "owner" || getUserRole(selectedList) === "admin") && (
+          <CollaboratorDialog
+            list={selectedList}
+            currentUser={user}
+            isOpen={isCollaboratorDialogOpen}
+            onClose={() => setIsCollaboratorDialogOpen(false)}
+            onAddCollaborator={handleAddCollaborator}
+            onUpdateCollaboratorRole={handleUpdateCollaboratorRole}
+            onRemoveCollaborator={confirmRemoveCollaborator}
+          />
+        )}
 
         <DeleteListDialog
           isOpen={isDeleteListDialogOpen}
