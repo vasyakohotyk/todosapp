@@ -111,7 +111,7 @@ export function ListCard({
               >
                 <Trash2 className="h-4 w-4 text-red-500" />
               </Button>
-            )}
+            
             <Button
               variant="ghost"
               size="sm"
@@ -123,6 +123,7 @@ export function ListCard({
             >
               <Users className="h-4 w-4 text-gray-600" />
             </Button>
+            )}
           </div>
           <Button
             className="bg-gray-900 hover:bg-gray-800 text-white px-6 py-2 rounded-lg text-sm font-medium"
